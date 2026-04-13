@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Canyon Lux Trail CF 7 — Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --card: #16191e;
+    --border: #222730;
+    --accent: #00e5a0;
+    --accent2: #ff6b35;
+    --accent3: #4da6ff;
+    --text: #e8ecf0;
+    --muted: #5a6270;
+    --canyon: #ff6b35;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body {
+    font-family:'Rajdhani',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding-bottom:48px;
+    overflow-x:hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background:linear-gradient(135deg,#0d1117 0%,#161c24 100%);
+    padding:52px 20px 18px;
+    border-bottom:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+  }
+  .header::before {
+    content:'';
+    position:absolute;
+    top:-50px;right:-50px;
+    width:200px;height:200px;
+    background:radial-gradient(circle,rgba(255,107,53,0.10) 0%,transparent 70%);
+    border-radius:50%;
+  }
+  .header::after {
+    content:'';
+    position:absolute;
+    bottom:-30px;left:-30px;
+    width:150px;height:150px;
+    background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);
+    border-radius:50%;
+  }
+  .bike-badge {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,107,53,0.12);
+    border:1px solid rgba(255,107,53,0.25);
+    border-radius:20px;
+    padding:4px 10px;
+    font-family:'Space Mono',monospace;
+    font-size:9px;
+    color:var(--canyon);
+    letter-spacing:2px;
+    margin-bottom:10px;
+  }
+  .bike-dot {
+    width:6px;height:6px;
+    background:var(--canyon);
+    border-radius:50%;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:0.5;transform:scale(0.8)}
+  }
+  .header-title {
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:1px;
+    line-height:1.1;
+  }
+  .header-title span { color:var(--accent); }
+  .header-model {
+    font-size:13px;
+    color:var(--muted);
+    margin-top:3px;
+    font-family:'Space Mono',monospace;
+    letter-spacing:0.3px;
+    font-size:11px;
+  }
+
+  /* SPECS STRIP */
+  .specs-strip {
+    display:flex;
+    gap:0;
+    overflow-x:auto;
+    padding:0 16px;
+    margin:12px 0 0;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .specs-strip::-webkit-scrollbar { display:none; }
+  .spec-chip {
+    flex-shrink:0;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:6px 10px;
+    margin-right:6px;
+    font-size:10px;
+    color:var(--muted);
+    line-height:1.4;
+    white-space:nowrap;
+  }
+  .spec-chip strong {
+    display:block;
+    font-size:11px;
+    color:var(--text);
+    font-family:'Space Mono',monospace;
+  }
+
+  /* SECTION */
+  .section-label {
+    font-family:'Space Mono',monospace;
+    font-size:9px;
+    letter-spacing:3px;
+    color:var(--muted);
+    text-transform:uppercase;
+    padding:18px 20px 8px;
+  }
+
+  /* CARD */
+  .card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    margin:0 16px 12px;
+    overflow:hidden;
+  }
+  .card-header {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px 10px;
+    border-bottom:1px solid var(--border);
+  }
+  .card-icon {
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;flex-shrink:0;
+  }
+  .icon-green{background:rgba(0,229,160,0.12);}
+  .icon-orange{background:rgba(255,107,53,0.12);}
+  .icon-blue{background:rgba(77,166,255,0.12);}
+  .card-title{font-size:14px;font-weight:700;letter-spacing:0.5px;}
+  .card-desc{font-size:10px;color:var(--muted);margin-top:1px;}
+  .card-body{padding:13px 16px;}
+
+  /* FIELD */
+  .field{margin-bottom:13px;}
+  .field:last-child{margin-bottom:0;}
+  .field-label{
+    font-size:11px;color:var(--muted);letter-spacing:1px;
+    text-transform:uppercase;margin-bottom:6px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .fixed-tag {
+    font-size:9px;
+    background:rgba(0,229,160,0.12);
+    color:var(--accent);
+    border:1px solid rgba(0,229,160,0.2);
+    border-radius:4px;
+    padding:2px 6px;
+    font-family:'Space Mono',monospace;
+    letter-spacing:0;
+  }
+
+  /* SLIDER */
+  .slider-wrap{position:relative;padding:4px 0;}
+  input[type="range"] {
+    -webkit-appearance:none;
+    width:100%;height:4px;
+    background:var(--border);
+    border-radius:4px;outline:none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    width:24px;height:24px;
+    background:var(--accent);
+    border-radius:50%;cursor:pointer;
+    box-shadow:0 0 0 4px rgba(0,229,160,0.15);
+  }
+  .slider-val {
+    text-align:right;
+    font-family:'Space Mono',monospace;
+    font-size:20px;color:var(--accent);font-weight:700;margin-top:2px;
+  }
+
+  /* SEG BUTTONS */
+  .seg{display:grid;gap:6px;}
+  .seg-2{grid-template-columns:1fr 1fr;}
+  .seg-3{grid-template-columns:1fr 1fr 1fr;}
+  .seg-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  .seg-btn {
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;color:var(--muted);
+    font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;
+    padding:9px 4px;text-align:center;cursor:pointer;
+    transition:all 0.15s;-webkit-user-select:none;user-select:none;
+    letter-spacing:0.3px;
+  }
+  .seg-btn.active{background:var(--accent);border-color:var(--accent);color:#0a0c0f;}
+  .seg-btn.active-orange{background:var(--accent2);border-color:var(--accent2);color:#fff;}
+  .seg-btn.active-blue{background:var(--accent3);border-color:var(--accent3);color:#0a0c0f;}
+  .seg-btn.locked {
+    background:rgba(0,229,160,0.06);
+    border-color:rgba(0,229,160,0.2);
+    color:var(--accent);
+    cursor:default;
+    opacity:0.85;
+  }
+
+  /* CALCULATE BTN */
+  .calc-btn {
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:calc(100% - 32px);margin:20px 16px 0;padding:17px;
+    background:var(--accent);border:none;border-radius:16px;
+    color:#0a0c0f;font-family:'Rajdhani',sans-serif;font-size:17px;
+    font-weight:700;letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:all 0.2s;-webkit-user-select:none;
+  }
+  .calc-btn:active{transform:scale(0.97);opacity:0.9;}
+
+  /* RESULTS */
+  .results{display:none;margin:20px 16px 0;}
+  .results.show{display:block;}
+  .result-label {
+    font-family:'Space Mono',monospace;font-size:9px;
+    letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;
+  }
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .result-card {
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:14px;position:relative;overflow:hidden;
+  }
+  .result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .rc-green::before{background:var(--accent);}
+  .rc-orange::before{background:var(--accent2);}
+  .rc-blue::before{background:var(--accent3);}
+  .result-name{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+  .result-value{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;line-height:1;}
+  .rv-green{color:var(--accent);}
+  .rv-orange{color:var(--accent2);}
+  .rv-blue{color:var(--accent3);}
+  .result-unit{font-size:11px;color:var(--muted);margin-top:2px;}
+  .result-sub{font-size:10px;color:var(--muted);margin-top:4px;font-family:'Space Mono',monospace;}
+
+  /* TIRE LABELS */
+  .tire-label {
+    font-size:10px;color:var(--muted);margin-top:5px;
+    font-family:'Space Mono',monospace;letter-spacing:0;
+  }
+
+  /* SAG BARS */
+  .sag-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
+  .sag-title{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .sag-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .sag-row:last-child{margin-bottom:0;}
+  .sag-label{font-size:11px;color:var(--muted);width:80px;flex-shrink:0;}
+  .sag-bar-wrap{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .sag-bar{height:100%;border-radius:4px;transition:width 0.7s cubic-bezier(.23,1,.32,1);}
+  .sag-pct{font-family:'Space Mono',monospace;font-size:12px;width:36px;text-align:right;flex-shrink:0;}
+  .sag-mm{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:40px;text-align:right;flex-shrink:0;}
+
+  /* REBOUND / CLICKS */
+  .clicks-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .click-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;
+    position:relative;overflow:hidden;
+  }
+  .click-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .cc-orange::before{background:var(--accent2);}
+  .cc-blue::before{background:var(--accent3);}
+  .click-name{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .click-value{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;}
+  .click-unit{font-size:10px;color:var(--muted);margin-top:2px;}
+
+  /* ADVICE */
+  .advice-box{
+    background:var(--card);border:1px solid var(--border);
+    border-left:3px solid var(--accent);border-radius:14px;padding:14px 16px;margin-bottom:0;
+  }
+  .advice-title{font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:'Space Mono',monospace;}
+  .advice-item{font-size:13px;color:#c0c8d4;margin-bottom:7px;line-height:1.45;padding-left:14px;position:relative;}
+  .advice-item::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:11px;top:1px;}
+  .advice-item:last-child{margin-bottom:0;}
+
+  /* FOX NOTE */
+  .fox-note {
+    background:rgba(255,107,53,0.05);
+    border:1px solid rgba(255,107,53,0.15);
+    border-radius:12px;
+    padding:11px 14px;
+    margin:0 16px 16px;
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+  .fox-note strong{color:var(--canyon);}
+
+  .footer{text-align:center;padding:22px 20px 0;font-size:11px;color:var(--muted);line-height:1.6;}
+  .footer span{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="bike-badge"><div class="bike-dot"></div>TU BICI · CONFIGURADA</div>
+  <div class="header-title">CANYON <span>LUX TRAIL</span></div>
+  <div class="header-model">CF 7 · 2023 · Talla S · Carbon · 12,9 kg</div>
+</div>
+
+<!-- SPECS STRIP -->
+<div class="specs-strip">
+  <div class="spec-chip">Horquilla<strong>FOX 34 SC · 120mm</strong></div>
+  <div class="spec-chip">Amortiguador<strong>FOX Float SL · 50mm</strong></div>
+  <div class="spec-chip">Del. 2.35" cámara<strong>Schwalbe R.Ralph</strong></div>
+  <div class="spec-chip">Tras. 2.4" cámara<strong>Schwalbe W.Will</strong></div>
+  <div class="spec-chip">Llantas<strong>DT Swiss X1900 · 30mm</strong></div>
+</div>
+
+<!-- PILOTO -->
+<div class="section-label">Tu peso</div>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon icon-green">🏍️</div>
+    <div>
+      <div class="card-title">Piloto + Equipo</div>
+      <div class="card-desc">Con casco, ropa y mochila</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="field" style="margin-bottom:0">
+      <div class="field-label">Peso total<span class="fixed-tag" id="weight-hint">80 kg</span></div>
+      <div class="slider-wrap">
+        <input type="range" id="weight" min="50" max="130" value="80" step="1"
+          oninput="updateW()">
+      </div>
+      <div class="slider-val" id="weight-display">80 kg</div>
+    </div>
+  </div>
+</div>
+
+<!-- TERRENO -->
+<div class="section-label">Terreno y condiciones</div>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon icon-orange">⛰️</div>
+    <div>
+      <div class="card-title">¿Dónde vas a rodar?</div>
+      <div class="card-desc">El setup cambia mucho según el trail</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="field">
+      <div class="field-label">Tipo de terreno</div>
+      <div class="seg seg-2" style="margin-bottom:6px">
+        <div class="seg-btn active-orange" onclick="sel(this,'terrain','active-orange')">XC / Rápido</div>
+        <div class="seg-btn" onclick="sel(this,'terrain','active-orange')">Trail Mixto</div>
+      </div>
+      <div class="seg seg-2">
+        <div class="seg-btn" onclick="sel(this,'terrain','active-orange')">Enduro Técnico</div>
+        <div class="seg-btn" onclick="sel(this,'terrain','active-orange')">DH / Pista</div>
+      </div>
+      <input type="hidden" id="terrain" value="XC / Rápido">
+    </div>
+    <div class="field">
+      <div class="field-label">Estado del suelo</div>
+      <div class="seg seg-3">
+        <div class="seg-btn active-orange" onclick="sel(this,'cond','active-orange')">Seco</div>
+        <div class="seg-btn" onclick="sel(this,'cond','active-orange')">Húmedo</div>
+        <div class="seg-btn" onclick="sel(this,'cond','active-orange')">Barro</div>
+      </div>
+      <input type="hidden" id="cond" value="Seco">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <div class="field-label">Superficie principal</div>
+      <div class="seg seg-3">
+        <div class="seg-btn active-orange" onclick="sel(this,'surf','active-orange')">Tierra</div>
+        <div class="seg-btn" onclick="sel(this,'surf','active-orange')">Roca</div>
+        <div class="seg-btn" onclick="sel(this,'surf','active-orange')">Raíces</div>
+      </div>
+      <input type="hidden" id="surf" value="Tierra">
+    </div>
+  </div>
+</div>
+
+<!-- ESTILO -->
+<div class="section-label">Tu estilo</div>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon icon-blue">⚡</div>
+    <div>
+      <div class="card-title">Preferencias de Setup</div>
+      <div class="card-desc">Cómo quieres sentir la bici</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="field">
+      <div class="field-label">Agresividad</div>
+      <div class="seg seg-3">
+        <div class="seg-btn active" onclick="sel(this,'agro','active')">Suave</div>
+        <div class="seg-btn" onclick="sel(this,'agro','active')">Medio</div>
+        <div class="seg-btn" onclick="sel(this,'agro','active')">Agresivo</div>
+      </div>
+      <input type="hidden" id="agro" value="Suave">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <div class="field-label">Dureza suspensión</div>
+      <div class="seg seg-3">
+        <div class="seg-btn" onclick="sel(this,'hard','active')">Blando</div>
+        <div class="seg-btn active" onclick="sel(this,'hard','active')">Neutro</div>
+        <div class="seg-btn" onclick="sel(this,'hard','active')">Duro</div>
+      </div>
+      <input type="hidden" id="hard" value="Neutro">
+    </div>
+  </div>
+</div>
+
+<!-- FIXED COMPONENTS NOTE -->
+<div class="fox-note">
+  <strong>Componentes fijados de tu Canyon:</strong> Horquilla FOX 34 SC (120 mm · 3 volume spacers de fábrica), Amortiguador FOX Float SL (210×50 mm · EVOL SV), Schwalbe con cámara. Las presiones son más altas que en tubeless para evitar pellizcos.
+</div>
+
+<button class="calc-btn" onclick="calculate()">⚙️ &nbsp;CALCULAR MI SETUP</button>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+  <div class="result-label">— Presiones recomendadas —</div>
+  <div class="result-grid">
+    <div class="result-card rc-green">
+      <div class="result-name">🔵 Delantera</div>
+      <div class="result-value rv-green" id="psi-front">--</div>
+      <div class="result-unit">PSI</div>
+      <div class="tire-label">Wicked Will 2.4"</div>
+      <div class="result-sub" id="rng-front"></div>
+    </div>
+    <div class="result-card rc-green">
+      <div class="result-name">🔴 Trasera</div>
+      <div class="result-value rv-green" id="psi-rear">--</div>
+      <div class="result-unit">PSI</div>
+      <div class="tire-label">Racing Ralph 2.35"</div>
+      <div class="result-sub" id="rng-rear"></div>
+    </div>
+    <div class="result-card rc-orange">
+      <div class="result-name">🔧 Horquilla</div>
+      <div class="result-value rv-orange" id="fork-psi">--</div>
+      <div class="result-unit">PSI · Cámara aire</div>
+      <div class="result-sub" id="fork-sub"></div>
+    </div>
+    <div class="result-card rc-blue">
+      <div class="result-name">⚡ Amortiguador</div>
+      <div class="result-value rv-blue" id="shock-psi">--</div>
+      <div class="result-unit">PSI · Cámara aire</div>
+      <div class="result-sub" id="shock-sub"></div>
+    </div>
+  </div>
+
+  <!-- SAG -->
+  <div class="sag-card">
+    <div class="sag-title">📏 SAG — Hundimiento estático con tu peso</div>
+    <div class="sag-row">
+      <div class="sag-label">Horquilla</div>
+      <div class="sag-bar-wrap"><div class="sag-bar" id="sb-fork" style="width:0%;background:var(--accent2)"></div></div>
+      <div class="sag-pct rv-orange" id="sv-fork">--%</div>
+      <div class="sag-mm" id="sm-fork">-- mm</div>
+    </div>
+    <div class="sag-row">
+      <div class="sag-label">Amortiguador</div>
+      <div class="sag-bar-wrap"><div class="sag-bar" id="sb-shock" style="width:0%;background:var(--accent3)"></div></div>
+      <div class="sag-pct rv-blue" id="sv-shock">--%</div>
+      <div class="sag-mm" id="sm-shock">-- mm</div>
+    </div>
+  </div>
+
+  <!-- REBOUND / CLICKS -->
+  <div class="result-label">— Ajuste de rebote (punto de partida) —</div>
+  <div class="clicks-grid">
+    <div class="click-card cc-orange">
+      <div class="click-name">Rebote Horquilla</div>
+      <div class="click-value rv-orange" id="fork-reb">--</div>
+      <div class="click-unit">clics desde cerrado</div>
+    </div>
+    <div class="click-card cc-blue">
+      <div class="click-name">Rebote Amortiguador</div>
+      <div class="click-value rv-blue" id="shock-reb">--</div>
+      <div class="click-unit">clics desde cerrado</div>
+    </div>
+  </div>
+
+  <!-- ADVICE -->
+  <div class="advice-box">
+    <div class="advice-title">💡 Ajustes para tu Canyon</div>
+    <div id="advice-list"></div>
+  </div>
+</div>
+
+<div class="footer">
+  Valores orientativos · Ajusta siempre en bicicleta<br>
+  <span>FOX 34 SC · FOX Float SL · Schwalbe con cámara</span>
+</div>
+
+<script>
+function updateW() {
+  const v = document.getElementById('weight').value;
+  document.getElementById('weight-hint').textContent = v + ' kg';
+  document.getElementById('weight-display').textContent = v + ' kg';
+}
+
+function sel(btn, hid, cls) {
+  btn.parentElement.querySelectorAll('.seg-btn').forEach(b =>
+    b.classList.remove('active','active-orange','active-blue'));
+  btn.classList.add(cls);
+  document.getElementById(hid).value = btn.textContent.trim();
+}
+
+function calculate() {
+  const weight   = parseInt(document.getElementById('weight').value);
+  const terrain  = document.getElementById('terrain').value;
+  const cond     = document.getElementById('cond').value;
+  const surf     = document.getElementById('surf').value;
+  const agro     = document.getElementById('agro').value;
+  const hard     = document.getElementById('hard').value;
+
+  // ============ TIRE PRESSURE ============
+  // Presiones óptimas para agarre con cámara según peso, terreno y cubierta
+  // Wicked Will 2.4" delantera (más ancha = menos presión para mayor contacto)
+  // Racing Ralph 2.35" trasera (algo más estrecha = algo más presión)
+  // Con cámara el rango óptimo de agarre es ~25-35 PSI para MTB 29"
+  let baseFront = weight * 0.310; // Wicked Will 2.4" — ratio agarre óptimo
+  let baseRear  = weight * 0.340; // Racing Ralph 2.35"
+
+  const tMod  = {'XC / Rápido':+2.5,'Trail Mixto':0,'Enduro Técnico':-2,'DH / Pista':-3}[terrain]||0;
+  const cMod  = {'Seco':+1.5,'Húmedo':-1.5,'Barro':-3}[cond]||0;
+  const sMod  = {'Tierra':0,'Roca':+2,'Raíces':-1.5}[surf]||0;
+  const aMod  = {'Suave':+1,'Medio':0,'Agresivo':-1.5}[agro]||0;
+
+  let fPSI = Math.round((baseFront+tMod+cMod+sMod+aMod)*10)/10;
+  let rPSI = Math.round((baseRear +tMod+cMod+sMod+aMod)*10)/10;
+  fPSI = Math.max(24, Math.min(42, fPSI));
+  rPSI = Math.max(26, Math.min(46, rPSI));
+
+  // ============ FORK PSI — FOX 34 SC 120mm ============
+  // FOX recomienda ~1 PSI / kg para horquillas XC/trail de 120mm
+  // +5 tokens de volumen (3 de fábrica en la Lux Trail = setup más progresivo)
+  let forkBase = weight * 1.00;
+  const forkTMod = {'XC / Rápido':+6,'Trail Mixto':0,'Enduro Técnico':-6,'DH / Pista':-10}[terrain]||0;
+  const forkHMod = {'Blando':-8,'Neutro':0,'Duro':+8}[hard]||0;
+  let forkPSI = Math.round(forkBase + forkTMod + forkHMod);
+  forkPSI = Math.max(45, Math.min(130, forkPSI));
+
+  // ============ SHOCK PSI — FOX Float SL 210×50mm EVOL SV ============
+  // El Float SL con EVOL SV trabaja en rangos más altos que un DPS
+  // Referencia: ~90-150 PSI para 60-90kg según FOX
+  let shockBase = weight * 1.20; // EVOL SV necesita más presión base
+  const shockTMod = {'XC / Rápido':+10,'Trail Mixto':0,'Enduro Técnico':-8,'DH / Pista':-14}[terrain]||0;
+  const shockHMod = {'Blando':-10,'Neutro':0,'Duro':+10}[hard]||0;
+  let shockPSI = Math.round(shockBase + shockTMod + shockHMod);
+  shockPSI = Math.max(85, Math.min(200, shockPSI));
+
+  // ============ SAG ============
+  // Canyon recomienda 25-30% horquilla, 25-28% amortiguador para Lux Trail
+  const sagForkTarget  = {'XC / Rápido':22,'Trail Mixto':26,'Enduro Técnico':28,'DH / Pista':32}[terrain]||25;
+  const sagShockTarget = {'XC / Rápido':23,'Trail Mixto':26,'Enduro Técnico':28,'DH / Pista':30}[terrain]||25;
+  const sagHAdj = {'Blando':+3,'Neutro':0,'Duro':-3}[hard]||0;
+  const forkSag  = sagForkTarget  + sagHAdj;
+  const shockSag = sagShockTarget + sagHAdj;
+  const forkSagMM  = Math.round(120 * forkSag  / 100);
+  const shockSagMM = Math.round(50  * shockSag / 100);
+
+  // ============ REBOUND CLICKS ============
+  // FOX 34 SC Performance tiene ~20 clics totales de rebote
+  // FOX Float SL Performance Elite tiene ~12 clics de rebote
+  // Punto de partida: peso más pesado → más clics abierto (rebote más lento)
+  const baseRebFork  = Math.round(8  + (weight - 70) * 0.12);
+  const baseRebShock = Math.round(6  + (weight - 70) * 0.07);
+  const terrRebAdj = {'XC / Rápido':-1,'Trail Mixto':0,'Enduro Técnico':+1,'DH / Pista':+2}[terrain]||0;
+  const hardRebAdj = {'Blando':+2,'Neutro':0,'Duro':-2}[hard]||0;
+  let forkReb  = Math.max(5, Math.min(15, baseRebFork  + terrRebAdj + hardRebAdj));
+  let shockReb = Math.max(3, Math.min(10, baseRebShock + terrRebAdj + hardRebAdj));
+
+  // ============ RENDER ============
+  document.getElementById('psi-front').textContent = fPSI.toFixed(1);
+  document.getElementById('psi-rear').textContent  = rPSI.toFixed(1);
+  document.getElementById('fork-psi').textContent  = forkPSI;
+  document.getElementById('shock-psi').textContent = shockPSI;
+  document.getElementById('rng-front').textContent  = 'Rango: '+(fPSI-2).toFixed(0)+'–'+(fPSI+2).toFixed(0)+' PSI';
+  document.getElementById('rng-rear').textContent   = 'Rango: '+(rPSI-2).toFixed(0)+'–'+(rPSI+2).toFixed(0)+' PSI';
+  document.getElementById('fork-sub').textContent  = 'SAG obj: '+forkSag+'% ('+forkSagMM+' mm)';
+  document.getElementById('shock-sub').textContent = 'SAG obj: '+shockSag+'% ('+shockSagMM+' mm)';
+
+  // SAG bars
+  document.getElementById('sv-fork').textContent  = forkSag+'%';
+  document.getElementById('sm-fork').textContent  = forkSagMM+' mm';
+  document.getElementById('sv-shock').textContent = shockSag+'%';
+  document.getElementById('sm-shock').textContent = shockSagMM+' mm';
+  setTimeout(()=>{
+    document.getElementById('sb-fork').style.width  = forkSag+'%';
+    document.getElementById('sb-shock').style.width = shockSag+'%';
+  }, 120);
+
+  // Rebound
+  document.getElementById('fork-reb').textContent  = forkReb;
+  document.getElementById('shock-reb').textContent = shockReb;
+
+  // ============ ADVICE ============
+  const tips = [];
+  tips.push('FOX Float SL EVOL SV: infla en 2 pasos — para a mitad de presión, rebota 3-4 veces y termina de inflar.');
+  tips.push('Horquilla FOX 34 SC: lleva 3 volume spacers de fábrica. Si tocas fondo en bajadas, quita 1 spacer.');
+  if (terrain === 'XC / Rápido')
+    tips.push('XC rápido: activa FIRM en subidas largas con el mando remoto para máxima eficiencia de pedaleo.');
+  if (terrain === 'Trail Mixto')
+    tips.push('Trail mixto: modo TRAIL en todo momento, deja que la suspensión trabaje libremente.');
+  if (terrain === 'Enduro Técnico' || terrain === 'DH / Pista')
+    tips.push('Terreno técnico: mantén el modo OPEN siempre, la Lux Trail necesita todo su recorrido activo.');
+  if (cond === 'Húmedo')
+    tips.push('Suelo húmedo: la presión más baja aumenta la huella de contacto y mejora el agarre lateral.');
+  if (cond === 'Barro')
+    tips.push('Barro: presiones bajas para máxima huella. Limpia los tacos antes de rodar para que muerdan bien.');
+  if (surf === 'Roca')
+    tips.push('Roca: la presión más alta protege la llanta en impactos directos y mejora el rebote sobre piedra.');
+  if (surf === 'Raíces')
+    tips.push('Raíces: presión más baja para que el neumático se amolde y no rebote sobre ellas.');
+  if (agro === 'Agresivo')
+    tips.push('Pilotaje agresivo: cierra la compresión de alta velocidad de la horquilla 2-3 clics para más soporte en aterrizajes.');
+  tips.push('Comprueba la presión antes de cada salida — las cámaras pierden aire lentamente aunque estén paradas.');
+
+  document.getElementById('advice-list').innerHTML =
+    tips.map(t=>`<div class="advice-item">${t}</div>`).join('');
+
+  const r = document.getElementById('results');
+  r.classList.add('show');
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'start'}),120);
+}
+updateW();
+</script>
+</body>
+</html>
